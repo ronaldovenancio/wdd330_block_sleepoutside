@@ -38,7 +38,7 @@ export default class ProductDetails {
     // Notice the .bind(this). Our callback will not work if we don't include that line. Review the readings from this week on 'this' to understand why.
     document
         .getElementById("addToCart")
-        .addEventListener("click", this.addToCart.bind(this));
+        .addEventListener("click", this.addToCart.bind(product));
 }
 
 addToCart(product) {
@@ -68,6 +68,7 @@ handleBrandCrumbs() {
 
 // Added suggested retail price and list price on line 36-39
 renderProductDetails(product) {
+  const discountPercentage = ((product.SuggestedRetailPrice - product.ListPrice) / product.SuggestedRetailPrice) * 100;
   const detailsElement = document.querySelector(".product-detail");
   detailsElement.innerHTML = `
       <h3>${product.Brand.Name}</h3>
@@ -80,6 +81,9 @@ renderProductDetails(product) {
   <p class="product-card__price">
     <span class="product-card__original-price">$${product.SuggestedRetailPrice.toFixed(2)}</span>
     <span class="product-card__discount-price">${product.ListPrice}</span>
+    <div class="discount-flag">
+      <span>Save ${discountPercentage.toFixed(0)}%</span>
+    </div>
   </p>
       <p class="product__color">${product.Colors[0].ColorName}</p>
 
